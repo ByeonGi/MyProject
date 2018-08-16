@@ -54,6 +54,63 @@ module.exports = function(app,fs)
             })
 
         })
+    });
+
+    app.put('/updateUser/:username', function(req, res){
+        var result = {  };
+        var username = req.params.username;
+
+        //CHECK REQ VALIDITY
+        if(!req.body["password"] ||!req.body["name"]){
+            result["success"] = 0;
+            result["error"] = "invalid request";
+            res.json(result);
+            return;
+
+        }
+
+        //데이타 불러오기
+        fs.readFile(__dirname + "/../data/user.json", 'utf8', function(err, data){
+            var users = JSON.parse(data);
+            //
+            users[username] = req.body;
+
+            //데이터 저장
+            fs.writeFile(__dirname + "/../data/user.json",
+                        JSON.stringify(users, null, '\t'), "utf8", function(err, data){
+                            result = {"success" : 1};
+                            res.json(result);
+                        })
+        })
+    });
+
+    app.delete('/deleteUser/:username', function(req, res){
+        var result = {  };
+        //데이터 불러오기
+
+        fs.readFile(__dirname + "/../data/user.json", "utf8", function(err, data){
+            var users = JSON.parse(data);
+            //데이터 못찾음
+            if(!users[req.params.username]){
+                result["success"] = 0;
+                result["error"] = "not found";
+                res.json(result);
+                return;
+
+            }
+
+            //데이터로 부터 삭제
+            delete users[req.params.username];
+
+            //파일 저장
+            fs.writeFile(__dirname + "/../data/user.json",
+             JSON.stringify(users, null, '\t'),"utf8", function(err, data){
+
+             result["success"]=1;
+             res.json(result);
+             return;
+             })
+        })
     })
 }
 //router 코드를 따로 작성했기에, server.js 에서 모둘로서 불러올 수 있도록 사용됨.
