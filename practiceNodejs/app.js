@@ -1,27 +1,29 @@
 var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
 var app = express();
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 var Book = require('./models/book');
 
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
 var router = require('./routes')(app, Book);
-// 라우터 모듈을 불러와서 app, book에 전달해줍니다.
 
 var server = app.listen(port, function(){
-    console.log('server open port number : ' + port);
+    console.log("Express server open success");
 
 });
 
 var db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', function(){
-    console.log('mongoose open success');
+    console.log("connectied to mongod server");
+
+    
 });
 
-mongoose.connect('mongodb://localhost/mongodb_tutorial', {useNewUrlParser:true});
+mongoose.connect('mongodb://localhost/mongodb_tutorial', {useNewUrlParser: true});
+
