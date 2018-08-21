@@ -56,6 +56,14 @@ var result5 = [10,20,30,40,50].lastIndexOf(10);
 //array.prototype.lastIndexOf
 //요소가 존재하는 마지막 인덱스를 반환한다. 요소가 없으면  -1을 반환한다.
 
+var result6 = [1,2,3,4,5,6,7,8,9,10].some(function(num, idx){
+    return num === 3;
+});
 
+//array.prototype.some
+//반복문을 내부 반복으로 숨겨 배열 요소 중 하나라도 만족하는게 있는지 확인
+//java Stream 의 anyMatch와 동일
 
-console.log(result5);
+console.log(result6);
+
+//참고 자료 http://multifrontgarden.tistory.com/176?category=471264
