@@ -224,5 +224,110 @@
 // console.log(p1.coding());
 
 //상속의 구체적인 수단 prototype
-function Ultra(){}
-Ultra.prototype.ultraProp = true;
+// function Ultra(){}
+// Ultra.prototype.ultraProp = true;
+
+// function Super(){}
+// Super.prototype = new Ultra();
+
+// function Sub(){}
+// Sub.prototype = new Super();
+
+// var o = new Sub();
+// console.log(o.ultraProp);
+
+// //prototype은 객체의 원형이다
+// //함수는 객체이다. 그러므로 생성자로 사용될 함수도 객체다. 객체는 프로퍼티를 가질 수 있는데
+// //prototype이라는 프로퍼티는 그 용도가 약속되어 있는 특수한 프로퍼티다.
+// //prototype에 저장된 속성들은 생성자를 통해 객체가 만들어질 때 그 객체에 연결된다.
+
+//생성자 Sub를 통해서 만들어진 객체 o가 Ultra의 프로퍼티 ultraProp에 접근가능한 것은 prototype체인으로 Sub와 Ultra가
+//연결되어 있기 때문이다. 내부적으로 아래와 같은 일이 일어난다.
+//1.객체o에서 ultraProp를 찾는다.
+//2.없다면 Sub.prototype.ultraProp를 찾는다
+//3.없다면 Super.prototype.ultraProp를 찾는다.
+//4.없다면 Ultra.prototype.ultraProp를 찾는다.
+
+//prototype는 객체와 객체를 연결하는 체인의 역할을 한다.
+
+//Super.prototype = Ultra.prototype으로 하면 안된다. Super.prototpye의 값을 변경하면
+//그것이 Ultra.prototype도 변경하기 때문이다. Super.prototype = new Ultra();는  Ultra.prototype의 원형으로 하는
+//객체가 생성되기 때문에 new Ultra()를 통해서 만들어진 객체에 변화가 생겨도 Ultra.prototype의 객체에는 영향을 주지 않는다.
+
+//표준 내장 객체는 자바스크립트가 기본적으로 가지고 있는 객체들을 의미한다.
+//내장 객체가 중요한 이유는 프로그래밍을 하는데 기본적으로 필요한 도구들이기 때문이다.
+//결국 프로그래밍이 라는 것은 언어와 호스트 환겨에 제공하는 기능들을 통해 새로운 소프트웨어를 만들어내는 것
+
+//자바스크립트의 내장 객체 -> Object, Function, Array, String, Boolean, Number, Math, Date, RegExp
+
+// //배열의 확장
+// var arr = new Array('seoul', 'new york', 'ladarkh', 'pusan', 'Tsukuba');
+// function getRandomValueFromArray(haystack){
+//     var index = Math.floor(haystack.length* Math.random());
+//     return haystack[index];
+// }
+// console.log(getRandomValueFromArray(arr));
+
+// Array.prototype.rand = function(){
+//     var index = Math.floor(this.length*Math.random());
+//     return this[index];
+// }
+// var arr = new Array('seoul', 'new york', 'ladarkh', 'pusan', 'Tsukuba');
+// console.log(arr.rand());
+
+//Object객체는 객체의 가장 기본적인 형태를 가지고 있는 객체이다. 다시 말해서 아무것도 상속받지 않는 순수한 객체다.
+//자바스크립트에서 값을 저장하는 기본적인 단위로 Object를 사용한다.
+// var grades = {'byeongi' : 10, 'k9999' : 20};
+// //동시에 자바스크립트이 모든 객체는 Object객체를 상속받는데 , 그런 이유로 모든 객체는 Object객체의 프로퍼티를 가지고 있다.
+
+// // //Object객체를 확장하면 모든 객체가 접근할 수 있는 api를 만들 수 있다.
+// Object.prototype.contain = function(neddle){
+//     for(var name in this){
+//         if(this[name] === neddle){
+//             return true;
+//         }
+//     }
+//     return false;
+// }
+
+// var o = {'name' : 'byeongi', 'city' : 'seoul'};
+// console.log(o.contain('byeongi'));
+// var a = ['byeongi', 'leezche', 'grapittie'];
+// console.log(a.contain('leezche'));
+
+// //Object 객체는 확장하지 않는 것이 바람직, 모든 객체에 영향을 주기 때문이다.
+
+// for(var name in o){
+//     console.log(name);
+// }
+
+// //확장한 프로퍼티인contain이 포함되어 있다. 객체가 기본저긍로 가지고 있을 것으로 예상하고 있는 객체외에 다른객체를 가지고
+// //이쓴ㄴ 것은 개발자들에게 혼란을 준다. 이문제를 회피하기 위해서 프로퍼티의 해당 객체의 소속인지를 체크해볼 수 있는
+// //hasOwnProperty를 사용하면 된다.
+
+
+// for(var name in o){
+//     if(o.hasOwnProperty(name))
+//     console.log(name);
+// }
+
+// //hasOwnProperty는 인자로 전달된 속성의 이름이 객체의 속성인지 여부를 판단한다. 만약 prototype으로 상속받은 객체라면 false가 된다.
+
+
+//데이터 타입이란 데이터의 형태를 의미한다.
+//데이터 타입은 크게 두가지로 구분할 수 있다. 객체와 객체가 아닌 것
+
+//숫자, 문자열, 불리언, null, undefinded
+//객체가 아닌 데이터 타입을 원시 데이터 타입이라고 한다. 그 외의 모든 데이터 타입들은 객체다.
+
+//문장열과 관련해서 필요한 기능성을 객체지향적으로 제공해야하는 필요 또한 있기 때문에 원시 데이터형을 객체처럼 다룰 수 있도록
+//하기 위한 객체를 자바스크립트는 제공하고 있는데 그것이 레퍼객체다.(wrapper object = String, Number, Boolean)
+
+// var a = {'id':1};
+// function func(b){
+//     b.id = 2;
+
+// }
+
+// func(a);
+// console.log(a.id);
