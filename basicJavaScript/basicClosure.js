@@ -175,3 +175,40 @@
 // //counter.increment, counter.decrement, counter.value 세 함수에 의해 공유되는 하나의 어휘적 환경을 만든다.
 // //공유되는 어휘적 환경은 실행되는 익명 함수 안에서 만들어진다. 하나는 privateCounter라는 변수이고 하나는 changeBy라는 함수이다.
 // //둘다 익명 함수 외부에서 접근 될 수 없다.
+
+//
+
+// var makeCounter = function(){
+//     var privateCounter = 0;
+//     function changeBy(val){
+//         privateCounter += val;
+
+//     }
+//     return {
+//         increment : function(){
+//             changeBy(1);
+//         },
+//         decrement : function(){
+//             changeBy(-1);
+//         },
+//         value: function(){
+//             return privateCounter;
+//         }
+//     }
+// };
+
+// var counter1 = makeCounter();
+// var counter2 = makeCounter();
+// console.log(counter1.value());
+// counter1.increment();
+// counter1.increment();
+// console.log(counter1.value());
+// counter1.decrement();
+// console.log(counter1.value());
+// console.log(counter2.value());
+
+// //각 클로저는 그들 고유의 클로저를 통한 pricateCounter 변수의 다른 버전을 참조한다.
+// //각 카운터가 호출될 때마다; 하나의 클로저에서 변수값을 변경해도 다른 클로저의 값에는 영향을 주지 않는다.
+// //클로저를 사용하여 객체지향 프로그래밍의 정보 은닉과 캡슐화 같은 이점들을 얻을 수 있다.
+
+
