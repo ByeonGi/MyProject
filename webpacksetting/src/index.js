@@ -1,10 +1,3 @@
-import express from 'express'
+import sayHello from './sayHello'
 
-const port = process.env.PORT || 3030;
-const app = express();
-
-app.get('/', (req, res) =>{
-    res.send('hello world');
-})
-app.listen(port, () => console.log('listening on port ${port}'));
-
+console.log(sayHello());
