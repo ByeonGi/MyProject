@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title id="titleCheck">mypage</title>
+
+
+  </head>
+  <body>
+    <nav class = "navbar navbar-defalt navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" aria-expanded="false" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/" class="navbar-brand">마이페이지</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/mypage.html">마이페이지</a>
+            </li>
+            <li>
+              <a href="/join.html" id="joinmenu">가입</a>
+            </li>
+            <li>
+              <a href="/login.html" id="loginmenu">로그인</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1>mypage</h1>
+
+    <br>
+
+    <div class="media">
+        <div class="media-left">
+            <img id="myimage" src="https://www.w3schools.com/bootstrap/img_avatar3.png" style="width:60px" class="media-object"/>
+            
+            <div id="showfile">
+
+            </div>
+        </div>
+
+        <div class="media-body">
+            <h4 class="media-heading" id="nicname">닉네임</h4>
+
+            <div id="statetxtP">
+                <p id="statetxt"></p>
+            </div>
+        </div>
+        <br>
+
+        <div align="right">
+            <button id="changeBtn" type="button" class="btn btn-warning">수정하기</button>
+        </div>
+    </div>
+    <hr>
+    
+
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <!-- 현재 시간을 가져오는 js 파일 -->
+    <script src="./js/time.js"></script>
+    <!-- login 유무 session js 파일 -->
+    <script src = "./js/sessionCheck.js"></script>
+    <script>
+        var firebaseEmailAuth;
+        var firebaseDatabase;
+        var name;
+        var loginUserKey;
+        var userInfo;
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDCyWOhF2L1qOop1L9FjP2aAFZwVBBYyXs",
+        authDomain: "fir-example-20aba.firebaseapp.com",
+        databaseURL: "https://fir-example-20aba.firebaseio.com",
+        projectId: "fir-example-20aba",
+        storageBucket: "fir-example-20aba.appspot.com",
+        messagingSenderId: "381108467631"
+      };
+      firebase.initializeApp(config);
+
+      firebaseEmailAuth = firebase.auth();
+      firebaseDatabase = firebase.database();
+      userSessionCheck();
+      $(document).ready(function(){
+          //세션체크 함수인지 호출
+          userSessionCheck();
+      });
+
+      //수정 버튼이 click 되기를 대기하고 있는 이벤트 함수
+      $(document).on('click', '#changeBtn', function(){
+          changeButtonAction();
+      });
+
+      function changeButtonAction(){
+          console.log('버튼이 눌렀어');
+          var changeBtn = document.getElementById('changeBtn');
+          var changeBtnText = changeBtn.textContent;//버튼의 text제목을 가져온다.
+
+          //버튼이 수정하기 버튼이면
+          if(changeBtnText == "수정하기"){
+            console.log('수정하기 버튼 - input file 나타나고 - p 태그 대신 input text 태그 변경시키기 - 저장버튼 활성화 작업을 시작합니다');
+
+            //input file 붙여주기 - id 가 fileButton 인 filetype의 엘리먼트를 붙여주었다.
+            var html = "<input type=\"file\" id =\"fileButton\"/>";
+            $("#showfile").append(html);
+            console.log("input file 붙여주기 완료");
+
+            //기존의 한줄 메시지 없애주고, 새로운 input text 붙여주기
+            var parent = document.getElementById("statetxtP");
+            var child = document.getElementById("statetxt");
+            parent.removeChild(child);
+            console.log("한줄 메시지 적을 textarea 창 활성화 완료");
+
+            //한줄 메시지 적을 textarea 창 활성화
+            var newTextarea = "<textarea class=\"form-control\" rows=\"3\" id=\"comment\"></textarea>";
+            $("#statetxtP").append(newTextarea);
+            console.log("한줄 메시지 적을 textarea 창 활성화 완료");
+
+            //저장하기 버튼 활성화
+            changeBtn.textContent = "저장하기";
+            changeBtn.className = "btn btn-success";//부트스트랩 클래스 속성 변경해주기
+         }else{
+          console.log('저장 버튼 - input file 사라지게 input text 태그 사라지고 p 태그에 넣고 저장 버튼 비활성화 수정버튼 활성화를 시작합니다.');
+
+          //저장하기 함수 호출
+          console.log('저장하기 함수 호출');
+
+          var saveChack = imageStateMsgAllSave();
+          //함수가 사진을 저장하고 한줄글을 저장하는 로직이 담겨있다.
+
+          if(saveChack){
+              //활성화된 input file 객체 삭제
+              var parent = document.getElementById('showfile');
+              var child = document.getElementById('fileButton');
+              parent.removeChild(child);
+              console.log('활성화된 input file 객체 삭제 완료');
+
+              //input text area 객체 삭제해주기
+              var parentTwo = document.getElementById('statetxtP');
+              var childTwo = document.getElementById('comment');
+
+              //p태그에 수정한 한줄 메시지 넣어주기
+              var htmlThree = "<p id = \"statetxt\">" +  comment + "</p>";
+              $("statetxtP").append(htmlThree);
+              console.log('할줄메시지가 들어있는 p 태그 활성화');
+
+              changeBtn.textContent = '수정하기';
+              changeBtn.className = 'btn btn-default';
+
+              console.log('저장되었습니다.');
+          }
+          }
+        }
+        
+        function imageStateMsgAllSave(){
+            console.log('imageStateMsgAllSave 로 들어왔습니다.');
+
+            var fileButton = document.getElementById('fileButton');
+            comment = document.getElementById('comment').value;
+            alert(comment);
+
+            //수정 버튼을 눌러서 fileButton 객체가 생기면 ~! 작동
+            if(fileButton){
+                //filebutton.addEventListener('change', function(er){})
+                console.log("fileButton.addEventListenr('change', function(e) { 함수 호출 - 들어왔습니다.");
+
+                var file = fileButton.files[0];
+                //현재 유저 키를 파일이름으로 지정
+                var storageRef = firebase.storage().ref(loginUserKey);
+                var task = storageRef.put(file);
+
+                //핵심
+                //이곳에서 파이어베이스 스토리지에도 저장해주고, 데이터베이스에도 저장해줘야함.
+                //유저키(부모키)를 레퍼런스로 잡고 url 추가해줌 userSessionCheck()먼저 실행
+                //사진을 업데이트 하고 현재 상태글 업데이트 하고, 다시 불러오기
+                //비동기 방식으로 움직임
+                //최종완료되었을때 이곳에서 끝난다.
+                task.then(function(snapshot){
+                    url = snapshot.downloadURL;
+                    console.log("파이어베이스 스토리지에 저장된 주소 = " + url);
+                    //파이어베이스에 이미지를 저장한 후 그 url을 바로 가져와서 img 태그에 적용해줌
+                    document.querySelector('#myimage').src = url;
+
+                    //여기에 user 레퍼런스에 사진 url 저장
+                    //선택된 키가 있으면 수정
+                    userRef = firebaseDatabase.ref('users/' + loginUserKey);
+                    userRef.update({
+                        createtime : currentTime,
+                        name : name,
+                        imgURl : url,
+                        comment : comment
+                    });
+                    console.log('파이어베이스 데이터베이스 user 레퍼런스에 성공적으로 저장 완료');
+                    alert('성공적으로 변경되었습니다.');
+                }).catch(function(error){
+                    console.error(error);
+                    return;
+                })
+            }
+            return true;
+        }
+    
+    </script>
+  </body>
+</html>

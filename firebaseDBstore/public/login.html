@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Welcome to Firebase Hosting</title>
+
+
+  </head>
+  <body>
+    <nav class = "navbar navbar-defalt navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" aria-expanded="false" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/" class="navbar-brand">로그인</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active">
+              <a href="/">Home</a>
+            </li>
+            <li>
+              <a href="/mypage.html">마이페이지</a>
+            </li>
+            <li>
+              <a href="/join.html" id="joinmenu">가입</a>
+            </li>
+            <li>
+              <a href="/login.html" id="loginmenu">로그인</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <div class="container">
+        <h1>로그인 해주세요</h1>
+
+        <div class="form-group">
+            <label for="email">email:</label>
+            <input type="email" class="form-control" id="email">
+        
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd">
+            
+        </div>
+
+        <button type="button" class="btn btn-default login">로그인</button>
+                    
+    
+    </div>
+
+
+    
+    <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDCyWOhF2L1qOop1L9FjP2aAFZwVBBYyXs",
+        authDomain: "fir-example-20aba.firebaseapp.com",
+        databaseURL: "https://fir-example-20aba.firebaseio.com",
+        projectId: "fir-example-20aba",
+        storageBucket: "fir-example-20aba.appspot.com",
+        messagingSenderId: "381108467631"
+      };
+      firebase.initializeApp(config);
+
+      firebaseEmailAuth = firebase.auth();
+      firebaseDatabase = firebase.database();
+
+      $(document).ready(function(){
+
+        //가입 버튼 눌렀을때
+          $(document).on('click','.login', function(){
+              //제이쿼리 선택자와 val()함수를 이용해서 이메일 비밀번호 값을 가져온다.
+              var email = $('#email').val();
+              var password = $('#pwd').val();
+              alert("로그인 버튼 눌렸음 " + email + ":" + password);
+    
+              //파이어베이스 이메일 로그인 함수
+              firebaseEmailAuth.signInWithEmailAndPassword(email, password).then(function(firebaseUser){
+                  loginSuccess(firebaseUser);
+                  //성공하면 firebaseUser에 정보 값이 담겨넘어온다.
+              }).catch(function(err){
+                  alert(err);
+                  alert('로그인 실패');
+              });
+          })
+      })
+      //로그인 성공시
+        function loginSuccess(firebaseUser){
+            alert('로그인 성공');
+            //로그인 성공한 유저 id 확인해 보기 - firebase database에 접근하여 데이터 조회하는 함수
+            firebaseDatabase.ref('users/' + firebaseUser.uid).once('value').then(function(snapshot){
+
+            });
+
+            window.location.href = "/index.html"
+        }
+    </script>
+  </body>
+</html>
