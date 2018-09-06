@@ -1,0 +1,10 @@
+{
+	"first_user": {
+		"password": "change_pass",
+		"name": "Byeongi"
+	},
+	"second_user": {
+		"password": "change2-pass",
+		"name": "hoseop"
+	}
+}
