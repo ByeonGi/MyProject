@@ -140,6 +140,7 @@ function logUser(){
     //저장 형식
     var obj = {
         name: name,
+        userkey : userInfo.uid
     };
  
     ref.set(obj); // 고유한 자식 키가 하나 생셩이 되면서 json 삽입

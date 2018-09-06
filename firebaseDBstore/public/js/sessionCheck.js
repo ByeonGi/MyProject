@@ -1,6 +1,5 @@
 function userSessionCheck(){
     console.log(currentTime);
-
     firebaseEmailAuth.onAuthStateChanged(function(user){
       if(user){
         // 조회 - 데이터 베이스에 저장된 닉네임을 현재 접속되어 있는 user 의 pk key 값을 이용해서 가져오기
@@ -17,6 +16,9 @@ function userSessionCheck(){
           loginUserKey = snapshot.key;
           userInfo = snapshot.val();
           //snapshot.val()에는 sessionCheck할때 로그인 한 유저와 관련된 값이 들어있다.
+
+          
+          
 
 
           if(document.getElementById('titleCheck').textContent == "mypage"){
