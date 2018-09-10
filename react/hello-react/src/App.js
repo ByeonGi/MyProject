@@ -150,11 +150,22 @@
 
 import React , {Component} from 'react';
 import MyName from './MyName';
+import Counter from './Counter';
 
 class App extends Component{
   render(){
     return(
-      <MyName name = "리액트"/>
+
+      <div>
+        <div>
+        <MyName name = "리액트"/>,
+        </div>
+        <div>
+          <Counter />
+        </div>
+      </div>
+      
+      
     )
   }
 }
