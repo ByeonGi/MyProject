@@ -115,19 +115,19 @@ class PhoneInfo extends Component{
         }
 
         else{
-        return (
-            
-            <div style = {style}>
-                <div>
-                    <b>{name}</b>
+            return (
+                
+                <div style = {style}>
+                    <div>
+                        <b>{name}</b>
+                    </div>
+                    <div>
+                        {phone}
+                    </div>
+                    <button onClick= {this.handleToggleEdit}>수정</button>
+                    <button onClick = {this.handleRemove}>삭제</button>
                 </div>
-                <div>
-                    {phone}
-                </div>
-                <button onClick= {this.handleToggleEdit}>수정</button>
-                <button onClick = {this.handleRemove}>삭제</button>
-            </div>
-        )
+            )
         }
     }
 }
