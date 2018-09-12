@@ -123,6 +123,7 @@ class App extends Component {
       handleSelectColor      
     } = this;
     //위처럼 비구조화 할당을 했다. 이렇게 함으로써 this.handleChange, this.handleCreate, this.handleKeyPress 이런식으로 계속 this를 붙여줘야하는 작업을 생략 할수 있다.
+   
     return (
       // <div>
       //   <TodoListTemplate form = {<div>이렇게 함</div>}>

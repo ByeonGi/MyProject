@@ -1,0 +1,13 @@
+@import 'utils';
+
+body {
+    margin: 0;
+    background: $oc-gray-8;
+    // $oc-gray-8이 open-coor 에 등록된 색상 변수이다. open-color 에 등록된 변수를 사용하려면,$oc-[색상]-[명암]
+    box-sizing: border-box;
+
+}
+
+*{
+    box-sizing: inherit;
+}

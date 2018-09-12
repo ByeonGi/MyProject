@@ -1,0 +1,5 @@
+@import '~open-color/open-color';
+@import '~include-media/dist/include-media';
+//경로에 ~가 들어간다는 것은 node_modules 내부의 디렉토리를 사용한다는 것이다.
+//색상 팔레트와 반응형 디자인을 쉽게 해주는 라이브러리를 적용하였다. 현 프로젝트에서 위 라이브러리들이 필수적은 아니지만, Sass를 사용하면서 이런식으로 사용 할 수 있는 것을 알아보자고 적용함
+
