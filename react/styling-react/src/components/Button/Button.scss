@@ -1,0 +1,47 @@
+@import 'utils';
+
+.button{
+    background: $oc-green-7;
+    transition:  all .2s ease-in;
+    display: inline-block;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+    color : white;
+    position: fixed;
+    font-size: 2rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+
+    @include place-at-center();
+
+    width: 1200px;
+
+    // 반응형 디자인
+    @include media("<huge") {
+        width : 1024px;
+
+    }
+    @include media("<large") {
+        width: 768px;
+
+    }
+    @include media("<medium") {
+        width: 90%;
+
+    }
+    //include-media인 경우엔 믹스인으로 구성된 라이브러리 인데, 사용을 할 때는 이전에 설정했던 breakpoints에서 지정한 값들을 참조하여
+    //@includemedia('<huge'){...}와 같은 형식으로 작성한다.
+    //기본넓이를 1200px로 설정하고, 창의크기가 1200px 미만으로 되면 1024로 설정하고 창의 크기가 그것보다 작아지면 768px, 다음에는 90%의 크기로 설정하도록 했다.
+
+    //마우스 상태에 따라 다른 효과 지정
+    &:hover{
+        background: $oc-green-6;
+
+    }
+    &:active{
+        margin-top: 3px;
+        background: $oc-green-8;
+    }
+}

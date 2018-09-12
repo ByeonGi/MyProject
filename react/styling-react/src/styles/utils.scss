@@ -1,0 +1,18 @@
+@import '~open-color/open-color';
+@import '~include-media/dist/include-media';
+// npm 혹은 yarn 으로 설치한 패키지 내부에 있는 파일을 불러올때에는 ~문자를 통해서 node_modules 디렉토리에 접근 할 수 있다.
+
+$breakpoints: (
+    small : 376px,
+    medium : 768px,
+    large : 1024px,
+    huge : 1200px
+);
+
+$size : 100px;
+
+@mixin place-at-center(){
+    top : 50%;
+    left : 50%;
+    transform : translate(-50%, -50%);
+}
