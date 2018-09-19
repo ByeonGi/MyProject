@@ -53,16 +53,23 @@ module.exports = {
   //   // initialization, it doesn't blow up the WebpackDevServer client, and
   //   // changing JS code would still trigger a refresh.
   // ],
-  entry: {
-    dev : 'react-error-overlay',
-    vendor : [
-      require.resolve('./polyfills'),
-      'react',
-      'react-dom',
-      'react-router-dom',
-    ],
-    app : ['react-dev-utils/webpackHotDevClient', paths.appIndexJs]
-  },
+  entry : [
+    'react-hot-loader/patch',
+    'react-dev-utils/webpackHotDevClient',
+    'react-error-overlay',
+    require.resolve('./polyfills'),
+    paths.appIndexJs
+  ],
+  // entry: {
+  //   dev : 'react-error-overlay',
+  //   vendor : [
+  //     require.resolve('./polyfills'),
+  //     'react',
+  //     'react-dom',
+  //     'react-router-dom',
+  //   ],
+  //   app : ['react-dev-utils/webpackHotDevClient', paths.appIndexJs]
+  // },
   // },
   output: {
     // Add /* filename */ comments to generated require()s in the output.
@@ -172,6 +179,9 @@ module.exports = {
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
               cacheDirectory: true,
+              plugins : [
+                'react-hot-loader/babel'
+              ]
             },
           },
           // "postcss" loader applies autoprefixer to our CSS.

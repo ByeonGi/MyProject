@@ -56,7 +56,16 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  // entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  entry : {
+    vendor : [
+      require.resolve('./polyfills'),
+      'react',
+      'react-dom',
+      'react-router-dom'
+    ],
+    app : paths.appIndexJs
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -101,6 +110,15 @@ module.exports = {
       // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
       // please link the files into your node_modules/ and let module-resolution kick in.
       // Make sure your source files are compiled, as they will not be processed in any way.
+      new webpack.NormalModuleReplacementPlugin(
+        /^pages$/,
+        'pages/index.async.js'
+      ),
+
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendor',
+      }),
+      
       new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
     ],
   },
