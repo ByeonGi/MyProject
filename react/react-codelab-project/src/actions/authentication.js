@@ -143,13 +143,14 @@ import {
     AUTH_GET_STATUS,
     AUTH_GET_STATUS_FAILURE,
     AUTH_GET_STATUS_SUCCESS,
+    AUTH_LOGOUT,
 } from './ActionTypes';
 
 //login
 export function loginRequest(username, password){
     return (dispatch) =>{
         dispatch(login());
-
+        
         
     }
     return axios.post('/api/account/signin', {username, password})
@@ -163,10 +164,26 @@ export function loginRequest(username, password){
     })
 }
 
+export function logoutRequest(){
+    return(dispatch) =>{
+        return axios.post('/api/account/logout')
+        .then((response) =>{
+            dispatch(logout());
+
+        });
+    }
+}
+
 export function login(){
     return {
         type : AUTH_LOGIN
     };
+}
+
+export function logout(){
+    return {
+        type : AUTH_LOGOUT
+    }
 }
 
 export function loginSuccess (username){
@@ -223,6 +240,13 @@ export function getStatus(){
 
 export function getStatusSuccess(username){
     return {
-        type : AUTH_GET_STATUS_FAILURE
+        type : AUTH_GET_STATUS_SUCCESS,
+        username
     };
+}
+
+export function getStatusFailure(){
+    return {
+        type : AUTH_GET_STATUS_FAILURE
+    }
 }
