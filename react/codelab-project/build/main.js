@@ -49,16 +49,6 @@ db.once('open', function () {
 });
 _mongoose2.default.connect('mongodb://localhost/codelab');
 
-if (process.env.NODE_ENV == 'development') {
-    console.log('Server is running on development mode');
-    var config = require('../webpack.dev.config');
-    var compiler = (0, _webpack2.default)(config);
-    var devServer = new _webpackDevServer2.default(compiler.config.devServer);
-    devServer.listen(devPort, function () {
-        console.log("webpack-dev-server is listening on port", devPort);
-    });
-}
-
 app.use('/', _express2.default.static(_path2.default.join(__dirname, './../public')));
 app.use((0, _morgan2.default)('dev'));
 app.use(_bodyParser2.default.json());
@@ -68,6 +58,9 @@ app.use((0, _expressSession2.default)({
     saveUninitialized: true
 }));
 app.use('/api', _routes2.default);
+app.get("*", function (req, res) {
+    res.sendFile(_path2.default.resolve(__dirname, "./../public/index.html"));
+});
 app.use(function (err, req, res, next) {
     console.error(err.stack);
     res.status(500).send('Something broke!');
@@ -80,3 +73,12 @@ app.get('/hello', function (req, res) {
 app.listen(port, function () {
     console.log('Express is listening on port', port);
 });
+if (process.env.NODE_ENV == 'development') {
+    console.log('Server is running on development mode');
+    var config = require('../webpack.dev.config');
+    var compiler = (0, _webpack2.default)(config);
+    var devServer = new _webpackDevServer2.default(compiler.config.devServer);
+    devServer.listen(devPort, function () {
+        console.log("webpack-dev-server is listening on port", devPort);
+    });
+}

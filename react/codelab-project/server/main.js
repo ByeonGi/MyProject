@@ -18,6 +18,35 @@ db.on('error', console.error);
 db.once('open', () =>{console.log('Connected to mongodb server');});
 mongoose.connect('mongodb://localhost/codelab');
 
+
+
+app.use('/', express.static(path.join(__dirname , './../public')));
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(session({
+    secret : 'CodeLab1$1$234',
+    resave : false,
+    saveUninitialized : true
+}))
+app.use('/api', api);
+app.get("*", (req, res)=>{
+    res.sendFile(path.resolve(__dirname, "./../public/index.html"));
+})
+app.use(function(err, req, res, next){
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+})
+
+
+app.get('/hello', (req,res) =>{
+    return res.send('Helo CodeLab');
+
+});
+
+app.listen(port, () =>{
+    console.log('Express is listening on port', port);
+
+})
 if(process.env.NODE_ENV == 'development'){
     console.log('Server is running on development mode');
     const config = require('../webpack.dev.config');
@@ -29,27 +58,3 @@ if(process.env.NODE_ENV == 'development'){
         }
     );
 }
-
-app.use('/', express.static(path.join(__dirname , './../public')));
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(session({
-    secret : 'CodeLab1$1$234',
-    resave : false,
-    saveUninitialized : true
-}))
-app.use('/api', api);
-app.use(function(err, req, res, next){
-    console.error(err.stack);
-    res.status(500).send('Something broke!');
-})
-
-app.get('/hello', (req,res) =>{
-    return res.send('Helo CodeLab');
-
-});
-
-app.listen(port, () =>{
-    console.log('Express is listening on port', port);
-
-})
